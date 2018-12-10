@@ -14,7 +14,7 @@ AToken是一款易用的数字资产钱包，可以存储比特币(BTC)、莱特
 
 模块|version|targetSdkVersion|buildToolsVersion
 ---|---|---|---
-最新版本|2.5.3| 28| 28.0.3
+最新版本|2.5.3|&ensp;| 28.0.3
 
 #### GooglePlay
 https://play.google.com/store/apps/details?id=wallet.gem.com
@@ -23,7 +23,7 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 -------------------------------
 
 # 目录
-+ [钱包生成和助记词](#1)
++ [创建和导入钱包](#1)
 + [数据库设计和表结构](#2)
 + [多钱包管理](#3)
 + [以太坊交易构造](#4)
@@ -40,19 +40,19 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 
 <h2 id="1">钱包生成和助记词</h2>
 
-&ensp创建和导入钱包流程主要是，先获取随机数，创建钱包是利用java API生成，导入钱包是用用户输入的助记词推导出随机种子熵  
+创建和导入钱包流程主要是，先获取随机数，创建钱包是利用java API生成，导入钱包是用用户输入的助记词推导出随机种子熵  
 之后传给HD-Wallet,根据不同的币种生成相应私钥，公钥和地址，公钥，币种地址保存在本地数据库，私钥需用户输入密码推导，同时币种地址需提交  
 给后台服务入库。  
 
-钱包遵循BIP44协议  
+#钱包遵循BIP44协议  
 m / purpose' / coin_type' / account' / change / address_index  
-purporse': 固定值44', 代表是BIP44  
+': 固定值44', 代表是BIP44  
 coin_type': 这个代表的是币种, 可以兼容很多种币, 比如BTC是0', ETH是60',EOS是194'  
 BTC  m/44'/0'/0'/0/0  
 ETH  m/44'/60'/0'/0/0  
 EOS  m/44'/194'/0'/0/0  
 
-
+#导入钱包流程
 ![导入助记词流程](https://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png)
 
 
