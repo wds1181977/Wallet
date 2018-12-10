@@ -38,8 +38,7 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 
 <h2 id="1">钱包生成和助记词</h2>
 
-
-
+![导入助记词流程](img_url)://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png
 
 
 #### 一、功能介绍
