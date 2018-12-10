@@ -53,10 +53,10 @@ EOS  m/44'/194'/0'/0/0
 
 
 
-#### 二、#### 导入钱包流程
+#### 导入钱包流程
 ![导入助记词流程](https://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png)
 
-<h2 id="2">数据库表结构和多钱包管理</h2>
+#### 二、<h2 id="2">数据库表结构和多钱包管理</h2>
 
 
 
