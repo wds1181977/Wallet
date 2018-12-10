@@ -1,4 +1,4 @@
-<div align=center>![](https://github.com/OldDriver007/Wallet/blob/master/icon_logo.png)
+<div align=center>![](https://github.com/OldDriver007/Wallet/blob/master/icon_logo.png)</div>
 
 
 # AToken Android客服端 重点介绍
