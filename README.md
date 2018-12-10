@@ -17,12 +17,12 @@ AToken是一款易用的数字资产钱包，可以存储比特币(BTC)、莱特
 最新版本|2.5.3|28|28.0.3
 
 #### GooglePlay
-(https://play.google.com/store/apps/details?id=wallet.gem.com)
+https://play.google.com/store/apps/details?id=wallet.gem.com
 
 
 -------------------------------
 
-# Menu/目录
+# 目录
 + [钱包生成和助记词](#1)
 + [数据库设计和表结构](#2)
 + [多钱包管理](#3)
@@ -36,7 +36,9 @@ AToken是一款易用的数字资产钱包，可以存储比特币(BTC)、莱特
 
 ------------------------------
 
-<h2 id="1">Overview/简介</h2>
+<h2 id="1">钱包生成和助记词</h2>
+
+
 
 
 
