@@ -14,7 +14,7 @@ AToken是一款易用的数字资产钱包，可以存储比特币(BTC)、莱特
 
 模块|version|targetSdkVersion|buildToolsVersion
 ---|---|---|---
-最新版本|2.5.3|&ensp;28|&ensp;28.0.3
+最新版本|2.5.3|&ensp;&ensp;&ensp;28|&ensp;&ensp;&ensp;28.0.3
 
 #### GooglePlay
 https://play.google.com/store/apps/details?id=wallet.gem.com
@@ -24,15 +24,11 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 
 # 目录
 + [创建和导入钱包](#1)
-+ [数据库设计和表结构](#2)
-+ [多钱包管理](#3)
++ [数据库表结构和多钱包管理](#2)
++ [EOS账户系统及交易构造](#3)
 + [以太坊交易构造](#4)
-+ [钱包生成和助记词](#5)
-+ [钱包生成和助记词](#6)
-+ [EOS账户系统及交易构造](#7)
-+ [EOS交易构造](#8)
-+ [DAPP](#9)
-+ [打包和发版注意事项](#9)
++ [DAPP](#5)
++ [打包和发版注意事项](#6)
 
 
 
@@ -54,13 +50,15 @@ EOS  m/44'/194'/0'/0/0
 
 其中BTC在生成时创建来100个地址，EOS是两个公钥
 
-<h2 id="2">数据库设计和表结构</h2>
-
 
 
 
 #### 导入钱包流程
 ![导入助记词流程](https://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png)
+
+<h2 id="2">数据库表结构和多钱包管理</h2>
+
+
 
 
 #### 一、功能介绍
