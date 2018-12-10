@@ -1,11 +1,11 @@
-# AToken Android客服端 重点介绍
+# ![](https://github.com/OldDriver007/Wallet/blob/master/icon_logo.png)AToken Android客服端 重点介绍
 
 
 
 
 # About/关于
 ```
-AToken是一款易用的数字资产钱包，可以存储比特币(BTC)、莱特币(LTC)、以太坊(ETH)、以太经典(ETC)、柚子(EOS)等多链轻钱包
+AToken是一款易用的数字资产钱包，可以存储比特币(BTC)、莱特币(LTC)、以太坊(ETH)、以太经典(ETC)、柚子(EOS)等的多链轻钱包
 ```
 
 
@@ -58,6 +58,7 @@ EOS  m/44'/194'/0'/0/0
 
 #### <h2 id="2">二、数据库表结构和多钱包管理</h2>
 数据库tx.db
+![表结构](https://github.com/OldDriver007/Wallet/blob/master/db.png)
 1. **
 2. **支持多模块工程使用**
 3. **支持添加多个拦截器，自定义拦截顺序**
