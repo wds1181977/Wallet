@@ -17,7 +17,7 @@ AToken是一款易用的数字资产钱包，可以存储比特币(BTC)、莱特
 
 模块|version|targetSdkVersion|buildToolsVersion
 ---|---|---|---
-最新版本|&ensp;2.5.3|&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;28|&ensp;&ensp;&ensp;&ensp;&ensp;28.0.3
+2018/12|&ensp;2.5.3|&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;28|&ensp;&ensp;&ensp;&ensp;&ensp;28.0.3
 
 #### GooglePlay
 https://play.google.com/store/apps/details?id=wallet.gem.com
@@ -26,18 +26,23 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 -------------------------------
 
 # 目录
-+ [创建和导入钱包](#1)
-+ [数据库表结构和多钱包管理](#2)
-+ [EOS账户系统及交易构造](#3)
-+ [以太坊交易构造](#4)
-+ [DAPP](#5)
-+ [打包和发版注意事项](#6)
++ [AToken支持币种介绍](#1)
++ [创建和导入钱包](#2)
++ [数据库表结构和多钱包管理](#3)
++ [EOS账户系统及交易构造](#4)
++ [以太坊交易构造](#5)
++ [DAPP](#6)
++ [打包和发版注意事项](#7)
 
 
 
 ------------------------------
+#### <h2 id="1"> 一、AToken支持币种介绍</h2>
+![支持币种介绍](https://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png)
 
-#### <h2 id="1"> 一、创建和导入钱包</h2>
+
+
+#### <h2 id="2"> 一、创建和导入钱包</h2>
 
 创建和导入钱包流程主要是，先获取随机数，创建钱包是利用java API生成，导入钱包是用用户输入的助记词推导出随机种子熵，之后传给HD-Wallet,根据不同的币种生成相应私钥，公钥和地址，公钥，币种地址保存在本地数据库，私钥需用户输入密码推导，同时币种地址需提交  给后台服务入库。助记词是用来管理各个币种私钥的，一个钱包对应一套助记词，相当于银行卡和密码，丢失后无法找回。
 
@@ -80,7 +85,7 @@ EOS  m/44'/194'/0'/0/0
 #### 导入钱包流程
 ![导入助记词流程](https://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png)
 
-#### <h2 id="2">二、数据库表结构和多钱包管理</h2>
+#### <h2 id="3">二、数据库表结构和多钱包管理</h2>
 
 ![表结构](https://github.com/OldDriver007/Wallet/blob/master/db.png)
 
@@ -333,7 +338,7 @@ public class TxDatabaseHelper extends SQLiteOpenHelper {
 ####   注意 删钱包要删除以上关联到表还应删除hd_account
 
 
-#### <h2 id="3"> 一、EOS账户系统及交易构造</h2>
+#### <h2 id="4"> 一、EOS账户系统及交易构造</h2>
 
 #### EOS账户系统
 EOS到账户由12位到数字字母组成，可以是全数字，数字必须是1-5，字母a-z需小写组成，通过节点可以查询到账户的一些基本信息，
