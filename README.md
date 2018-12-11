@@ -464,7 +464,7 @@ EOS之前是ETH的代币，在2018年6月主网上线，变更为主链，原持
 
 #### EOS创建账户时序图
 
-![](https://github.com/OldDriver007/Wallet/blob/master/createAccount1.png) 
+![](https://github.com/OldDriver007/Wallet/blob/master/creatAccount1.png) 
 
 
 
@@ -473,40 +473,15 @@ EOS之前是ETH的代币，在2018年6月主网上线，变更为主链，原持
 
 
 
-
-     ARouter才回去加载InstantRun产生的文件，所以在以上的情况下，需要在init**之前**调用openDebug
  
-4. TransformException:java.util.zip.ZipException: duplicate entry ....
- 
-     ARouter有按组加载的机制，关于分组可以参考 6-1 部分，ARouter允许一个module中存在多个分组，但是不允许多个module中存在相同的分组，会导致映射文件冲突
 
-5. Kotlin类中的字段无法注入如何解决？
-    
-    首先，Kotlin中的字段是可以自动注入的，但是注入代码为了减少反射，使用的字段赋值的方式来注入的，Kotlin默认会生成set/get方法，并把属性设置为private
-    所以只要保证Kotlin中字段可见性不是private即可，简单解决可以在字段上添加 @JvmField 
 
-6. 通过URL跳转之后，在intent中拿不到参数如何解决？
-    
-    需要注意的是，如果不使用自动注入，那么可以不写 `ARouter.getInstance().inject(this)`，但是需要取值的字段仍然需要标上 `@Autowired` 注解，因为
-    只有标上注解之后，ARouter才能知道以哪一种数据类型提取URL中的参数并放入Intent中，这样您才能在intent中获取到对应的参数
-    
-7. 新增页面之后，无法跳转？
-    
-    ARouter加载Dex中的映射文件会有一定耗时，所以ARouter会缓存映射文件，直到新版本升级(版本号或者versionCode变化)，而如果是开发版本(ARouter.openDebug())，
-    ARouter 每次启动都会重新加载映射文件，开发阶段一定要打开 Debug 功能
-
-#### 八、其他
 
 1. 沟通和交流
 
-    1. 钉钉交流群1
-    
-        ![qq](https://raw.githubusercontent.com/alibaba/ARouter/master/demo/dingding-group-1.png)
 
-    2. QQ 交流群1
+    QQ 交流群1
     
         ![qq](https://raw.githubusercontent.com/alibaba/ARouter/master/demo/qq-group-1.png)
 
-    3. QQ 交流群2
-        
-        ![qq](https://raw.githubusercontent.com/alibaba/ARouter/master/demo/qq-group-2.png)
+  
