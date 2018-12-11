@@ -87,8 +87,8 @@ EOS  m/44'/194'/0'/0/0
 #### 数据库
 tx.db
  1. hd_account_addresses&ensp;&ensp;地址表&ensp;&ensp;主键 walletId
- 2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp钱包表&ensp;&ensp;主键 walletId
- 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;主键 walletId
+ 2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;钱包表&ensp;&ensp;&ensp;&ensp;主键 walletId
+ 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;&ensp;主键 walletId
 
 address.db
 1.hd_account HD表
@@ -170,7 +170,7 @@ address.db
                 .map(account -> account != null);
     }
 ```
-wallet表
+### wallet表
 
 ```
     public static final String CREATE_WALLET = "create table wallet " +
@@ -250,6 +250,208 @@ wallet表
 
     }
 ```
+
+### EOS表
+
+目前一个wallet对应一个EOS账户
+```
+ public static final String  CREATE_EOS_ACCOUONT_TABLE  = "create table " + EOS_TABLLE_NAME  +
+            "( " + WALLET_ID + " TEXT not null , " +  //钱包id
+            BALANCE + " TEXT not null , " +
+            EOS_ACCOUNT_LIST +" TEXT not null , " +  //账户详情
+            EOS_MAIN_ACCOUNT +" TEXT not null , " +  //主账户
+            EOS_OWER_PUB +" TEXT not null , " +
+            EOS_ACTIVE_PUB +" TEXT not null , " +
+            EOS_OWER_PRIV_ENCRY +" TEXT not null , " +
+            EOS_ACTIVE_PRIV_ENCRY +" TEXT not null , " +
+            EOS_ETH_PRIV_ENCRY +" TEXT not null , " +
+            EOS_ACCOUNT_STATE +" TEXT not null , " +   //账户权限状态
+            EOS_REGISTERED_WALLET +" TEXT not null , " +
+            EOS_OTHER +" TEXT not null );";
+
+```
+### 升级数据库注意事项
+
+```
+
+public class TxDatabaseHelper extends SQLiteOpenHelper {
+
+    public static final int DB_VERSION = 4;
+    private static final String DB_NAME = "tx.db";
+    String noname = null;
+    public TxDatabaseHelper(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
+         noname = context.getResources().getString(R.string.string_no_name);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        createBlocksTable(db);
+        createTxsTable(db);
+        createAddressTxsTable(db);
+        createInsTable(db);
+        createOutsTable(db);
+        createPeersTable(db);
+        createHDAccountAddress(db);
+        createWalletTable(db);
+        createEosAccountTable(db);
+        db.execSQL(AbstractDb.CREATE_HD_ACCOUNT_ACCOUNT_ID_AND_PATH_TYPE_INDEX);
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        switch (oldVersion) {
+            case 1:
+                createWalletTableDB1(db);
+                db.execSQL("ALTER TABLE hd_account_addresses ADD COLUMN wallet_id text");
+                db.insert("wallet", null, ManagerWalletDBHelper.SingleTon.getInstance().insertOldWalletDB(noname));
+                ContentValues values =  new ContentValues();
+                values .put("wallet_id", ManagerWalletDBHelper.SingleTon.getInstance().getCurrentWalletId());
+                db.update("hd_account_addresses",values,null,null);
+            case 2:
+                db.execSQL("ALTER TABLE wallet ADD COLUMN assets text");
+                db.execSQL("ALTER TABLE wallet ADD COLUMN eos_account text");
+                db.execSQL("ALTER TABLE wallet ADD COLUMN eos_default_account text");
+                db.execSQL("ALTER TABLE wallet ADD COLUMN eos_seed text");
+                db.execSQL("ALTER TABLE wallet ADD COLUMN eos_ower_pub");
+                db.execSQL("ALTER TABLE wallet ADD COLUMN eos_active_pub");
+                db.execSQL("ALTER TABLE wallet ADD COLUMN eos_other");
+                saveOldWalletCoinIndex(db);
+            case 3:
+                createEosAccountTable(db);
+                insertOldEosDB(db);
+            default:
+                break;
+        }
+
+
+
+    }
+```
+####   注意 删钱包要删除以上关联到表还应删除hd_account
+
+
+#### <h2 id="3"> 一、EOS账户系统及交易构造</h2>
+
+#### EOS账户系统
+EOS到账户由12位到数字字母组成，可以是全数字，数字必须是1-5，字母a-z需小写组成，通过节点可以查询到账户的一些基本信息，
+owner公钥和active公钥，CPU,NET,RAM使用情况，赎回日期
+
+```
+{
+  "account_name": "gy4tsmjvhege",
+  "head_block_num": 31490345,
+  "head_block_time": "2018-12-11T06:27:42.000",
+  "privileged": false,
+  "last_code_update": "1970-01-01T00:00:00.000",
+  "created": "2018-06-09T12:24:03.500",
+  "core_liquid_balance": "6.2229 EOS",
+  "ram_quota": 12235,
+  "net_weight": 18776,
+  "cpu_weight": 138382,
+  "net_limit": {
+    "used": 909,
+    "available": 1480423,
+    "max": 1481332
+  },
+  "cpu_limit": {
+    "used": 9341,
+    "available": 0,
+    "max": 6661
+  },
+  "ram_usage": 8166,
+  "permissions": [
+    {
+      "perm_name": "active",
+      "parent": "owner",
+      "required_auth": {
+        "threshold": 1,
+        "keys": [
+          {
+            "key": "EOS567xSwyAG9e6HmQf1heYRe5riF9GhEov8XV4QgTefHrD9vjyRh",
+            "weight": 1
+          }
+        ],
+        "accounts": [],
+        "waits": []
+      }
+    },
+    {
+      "perm_name": "owner",
+      "parent": "",
+      "required_auth": {
+        "threshold": 1,
+        "keys": [
+          {
+            "key": "EOS567xSwyAG9e6HmQf1heYRe5riF9GhEov8XV4QgTefHrD9vjyRh",
+            "weight": 1
+          }
+        ],
+        "accounts": [],
+        "waits": []
+      }
+    }
+  ],
+  "total_resources": {
+    "owner": "gy4tsmjvhege",
+    "net_weight": "1.8776 EOS",
+    "cpu_weight": "13.8382 EOS",
+    "ram_bytes": 10835
+  },
+  "self_delegated_bandwidth": {
+    "from": "gy4tsmjvhege",
+    "to": "gy4tsmjvhege",
+    "net_weight": "1.7276 EOS",
+    "cpu_weight": "13.1382 EOS"
+  },
+  "refund_request": null,
+  "voter_info": {
+    "owner": "gy4tsmjvhege",
+    "proxy": "",
+    "producers": [
+      "eosflytomars"
+    ],
+    "staked": 148658,
+    "last_vote_weight": "76907583358.25599670410156250",
+    "proxied_vote_weight": "0.00000000000000000",
+    "is_proxy": 0
+  }
+}
+```
+
+#### 什么是owner权限和active权限
+EOS一个账户两种类型公钥，分别是owner公钥和active公钥，公钥可以变更或添加多个，同时私钥对应各自公钥，一个公钥也可以创建多个账户，所以在用户导入EOS私钥或激活EOS钱包时需通过公钥查询账户列表，owner相当于账户所有者，可以称之为拥有者权限，权限最高，可以管理active，active又称管理者权限，用于交易，投票等日常操作。owner公钥和active公钥也可以相同，AToken在新创建账户时默认owner和active两个公钥，导入私钥时可以单独导一个私钥，也可以导入私钥对，但需要注意的是导入是要存储账户权限类型，在签名交易时要根据权限类型来签名，否则签名不成功
+
+#### 如何获取EOS权限类型
+```
+    public static String getPermissionsType(String account) {
+        int permissionsType = EosAccountDBHelper.getInstance().queryEosAccountPermissionstype(account);
+        String owerOrAcitve = "active";
+        switch (permissionsType) {
+            case EosAccountDBHelper.OWER:
+                owerOrAcitve = "owner";
+                break;
+            case EosAccountDBHelper.ACTIVE:
+                owerOrAcitve = "active";
+                break;
+            case EosAccountDBHelper.OWER_ACTIVE:
+                owerOrAcitve = "active";
+                break;
+            default:
+                owerOrAcitve = "active";
+                break;
+
+        }
+        return owerOrAcitve;
+    }
+```
+
+#### 什么是映射用户，什么是194用户
+EOS之前是ETH的代币，在2018年6月主网上线，变更为主链，原持有EOS代币的用户需拿ETH的公钥传给EOS主网，保证升级后币不会丢失，是为映射，
+
+
 
 #### 一、功能介绍
 1. **支持直接解析标准URL进行跳转，并自动注入参数到目标页面中**
