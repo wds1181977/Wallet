@@ -40,10 +40,10 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 
 ------------------------------
 #### <h2 id="1"> 一、AToken支持币种介绍</h2>
-![](https://github.com/OldDriver007/Wallet/blob/master/screenshot.jpeg)  
+![](https://github.com/OldDriver007/Wallet/blob/master/screenshot.jpeg)
 主链币：BTC ETH EOS LTC DOGE  
 分叉币：BCH BTG BCD SBTC  
-Token: ETH ERC20  EOS Token  
+Token:  ETH ERC20  EOS Token  
 
 
 #### <h2 id="2"> 一、创建和导入钱包</h2>
@@ -95,9 +95,9 @@ EOS  m/44'/194'/0'/0/0
 
 #### 数据库
 tx.db
- 1. hd_account_addresses&ensp;&ensp;地址表&ensp;&ensp;主键 walletId
- 2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;钱包表&ensp;&ensp;&ensp;&ensp;主键 walletId
- 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;&ensp;主键 walletId
+ 1. hd_account_addresses&ensp;&ensp;地址表&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;主键 walletId
+ 2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;钱包表&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;主键 walletId
+ 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;主键 walletId
 
 address.db
 1.hd_account HD表
