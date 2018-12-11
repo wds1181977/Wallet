@@ -94,10 +94,44 @@ address.db
 1.hd_account HD表
 
 
-![hd_account_addresses表结构](https://github.com/OldDriver007/Wallet/blob/master/db.png)
+![hd_account_addresses表结构](https://github.com/OldDriver007/Wallet/blob/master/address.png)
 
+```
+  public static final String CREATE_HD_ACCOUNT_ADDRESSES = "create table if not exists " +
+            "hd_account_addresses " +  
+            "(hd_account_id integer not null" +  //coinType
+            ", path_type integer not null" + 
+            ", address_index integer not null" +  //地址索引
+            ", is_issued integer not null" +
+            ", address text not null" +           //地址
+            ", pub text not null" +               //公钥
+            ", is_synced integer not null" +
+            ", wallet_id text " +                 //钱包ID
+            ", primary key (address));";
 
+```
+###如何获取地址或公钥
+通过hd_account_id ,address_index和 wallet_id可以定位到地址和公钥
 
+```
+
+    private static String getETHAddress() {
+        String walletId = ManagerWalletDBHelper.SingleTon.getInstance().getCurrentWalletId();
+        int index = ManagerWalletDBHelper.SingleTon.getInstance().getCoinIndexByWalletId("ETH");
+        String mAddr = HDAccountAddressProvider.getInstance().getExternalAddr(CoinController.SingleTon.getInstance().getCoinIntByName("eth"), index, walletId);
+
+        if (TextUtils.isEmpty(mAddr)) {
+
+        }
+        return mAddr;
+    }
+
+    private static String getEosOwerAddress() {
+        String walletId = ManagerWalletDBHelper.SingleTon.getInstance().getCurrentWalletId();
+        String mAddr = HDAccountAddressProvider.getInstance().getExternalAddr(CoinController.SingleTon.getInstance().getCoinIntByName("EOS"), 0, walletId);
+        return mAddr;
+    }
+    ```
 
 
 
