@@ -86,12 +86,12 @@ EOS  m/44'/194'/0'/0/0
 
 #### 数据库
 tx.db
-1. **hd_account_addresses  地址表      主键 walletId
-2. **wallet                钱包表      主键 walletId
-3. **eos_account           EOS账户表   主键 walletId
+#### 1. hd_account_addresses  地址表      主键 walletId
+#### 2. wallet                钱包表      主键 walletId
+#### 3. eos_account           EOS账户表   主键 walletId
 
 address.db
-hd_account HD表
+#### hd_account HD表
 
 
 
