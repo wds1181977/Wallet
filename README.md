@@ -1,6 +1,8 @@
 ![](https://github.com/OldDriver007/Wallet/blob/master/icon_logo.png) 
 
 
+
+
 # AToken Android客服端 重点介绍
 
 
@@ -15,7 +17,7 @@ AToken是一款易用的数字资产钱包，可以存储比特币(BTC)、莱特
 
 #### 最新版本
 
-模块|version|targetSdkVersion|buildToolsVersion
+日期|version|targetSdkVersion|buildToolsVersion
 ---|---|---|---
 2018/12|&ensp;2.5.3|&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;28|&ensp;&ensp;&ensp;&ensp;&ensp;28.0.3
 
@@ -38,8 +40,10 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 
 ------------------------------
 #### <h2 id="1"> 一、AToken支持币种介绍</h2>
-![支持币种介绍](https://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png)
-
+![支持币种介绍](https://github.com/OldDriver007/Wallet/blob/master/screenshot.png)
+主链币：BTC ETH EOS LTC DOGE
+分叉币：BCH BTG BCD SBTC
+Token: ETH ERC20  EOS Token
 
 
 #### <h2 id="2"> 一、创建和导入钱包</h2>
