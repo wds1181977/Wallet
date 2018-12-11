@@ -81,11 +81,14 @@ EOS  m/44'/194'/0'/0/0
 ![导入助记词流程](https://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png)
 
 #### <h2 id="2">二、数据库表结构和多钱包管理</h2>
-数据库tx.db
+
 ![表结构](https://github.com/OldDriver007/Wallet/blob/master/db.png)
-1. **hd_account_addresses 币种地址公钥表  主键 walletId
-2. **wallet  钱包表 主键 walletId
-3. **eos_account EOS账户表   主键 walletId
+
+#### 数据库
+tx.db
+1. **hd_account_addresses  地址表      主键 walletId
+2. **wallet                钱包表      主键 walletId
+3. **eos_account           EOS账户表   主键 walletId
 
 address.db
 hd_account HD表
