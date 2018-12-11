@@ -40,10 +40,10 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 
 ------------------------------
 #### <h2 id="1"> 一、AToken支持币种介绍</h2>
-![支持币种介绍](https://github.com/OldDriver007/Wallet/blob/master/screenshot.png)
-主链币：BTC ETH EOS LTC DOGE
-分叉币：BCH BTG BCD SBTC
-Token: ETH ERC20  EOS Token
+![](https://github.com/OldDriver007/Wallet/blob/master/screenshot.jpeg)  
+主链币：BTC ETH EOS LTC DOGE  
+分叉币：BCH BTG BCD SBTC  
+Token: ETH ERC20  EOS Token  
 
 
 #### <h2 id="2"> 一、创建和导入钱包</h2>
