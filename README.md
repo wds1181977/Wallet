@@ -468,9 +468,12 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
 
 #### EOS交易构造
 
-1. ** createAccountAndSign()&ensp;&ensp;创建账户
-2. ** makeEosTranscation()&ensp;&ensp;转账
-3. ** doEosAction()&ensp;&ensp;执行 投票，抵押，赎回，购买内存，赎回后退款,出售内存
+1.createAccountAndSign()&ensp;&ensp;创建账户
+2.makeEosTranscation()&ensp;&ensp;转账
+3.doEosAction()&ensp;&ensp;执行 投票，抵押，赎回，购买内存，赎回后退款,出售内存
+
+
+
 
 
 
