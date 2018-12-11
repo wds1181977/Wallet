@@ -87,8 +87,8 @@ EOS  m/44'/194'/0'/0/0
 #### 数据库
 tx.db
  1. hd_account_addresses&ensp;&ensp;地址表&ensp;&ensp;主键 walletId
- 2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;;&ensp;&ensp;&ensp;&ensp钱包表&ensp;&ensp;&ensp;&ensp;主键 walletId
- 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;主键 walletId
+ 2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp钱包表&ensp;&ensp;主键 walletId
+ 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;主键 walletId
 
 address.db
 1.hd_account HD表
@@ -108,13 +108,15 @@ address.db
             ", is_synced integer not null" +
             ", wallet_id text " +                 //钱包ID
             ", primary key (address));";
-
 ```
+
+
+
 ###如何获取地址或公钥
 通过hd_account_id ,address_index和 wallet_id可以定位到地址和公钥
 
-```
 
+```
     private static String getETHAddress() {
         String walletId = ManagerWalletDBHelper.SingleTon.getInstance().getCurrentWalletId();
         int index = ManagerWalletDBHelper.SingleTon.getInstance().getCoinIndexByWalletId("ETH");
@@ -131,9 +133,123 @@ address.db
         String mAddr = HDAccountAddressProvider.getInstance().getExternalAddr(CoinController.SingleTon.getInstance().getCoinIntByName("EOS"), 0, walletId);
         return mAddr;
     }
-    ```
+   
+```
+#### 如何给新币种添加地址
+需要用户输入密码
+```   
+/**
+     * 用于导入其他hd模型的主链币
+     * 0-btc,2-ltc,3-doge,60-eth和etc
+     *
+     * @param password
+     * @param hdaccountId
+     * @return
+     */
+    public static Observable<Boolean> importCoin(String password, int hdaccountId) {
+        return Observable.just(password)
+                .map(pwd -> {
+                    try {
+                        String hdseed = AESUtils.decryptData(AddressGenerateUtils.getPwdHash(pwd), SP.get(Constant
+                                .SP_SEED, ""));
+                        HDAccount account = new HDAccount(HexUtils.hexStringToBytes(hdseed), false, hdaccountId);
+                        return account;
+                    } catch (Exception e) {
+                        return null;
+                    }
+                })
+                .doOnNext(account -> {
+                    if (account != null) {
+                        try {
+                            account.wipe();
+                        } catch (Exception e) {
+                            throw Exceptions.propagate(e);
+                        }
+                    }
+                })
+                .map(account -> account != null);
+    }
+```
+wallet表
+
+```
+    public static final String CREATE_WALLET = "create table wallet " +
+            "(wallet_id TEXT not null , " +      //wallet Id
+            "wallet_name TEXT not null , " +     //钱包名
+            "wallet_random_seed TEXT not null , " +  //熵
+            "wallet_seed TEXT not null , " +        
+            "wallet_password_seed TEXT not null , " + //密钥种子
+            "wallet_phone TEXT not null , " +         //绑定到手机号
+            "wallet_mnemonic_saved TEXT not null , " + //助记词是否备份
+            "wallet_coin_index TEXT not null , " +     //BTC币种索引
+            "isDefaultWallet integer not null , " +    //是否为主钱包
+            "assets TEXT not null , " +                //钱包总资产缓存
+            "eos_account TEXT not null , " +           //弃用
+            "eos_default_account TEXT not null , " +    //弃用
+            "eos_seed TEXT not null , " +                //弃用
+            "eos_ower_pub TEXT not null , " +           //弃用
+            "eos_active_pub TEXT not null , " +         //弃用
+            "eos_other TEXT not null );";             //钱包缓存数据
+``` 
+### 多钱包如何切换
+
+```
+ 
+    private void switchWallet(String amount) {
+        Observable.just(1)
+                .map(i -> {
+                    boolean success = false;
+                    try {
+                        HDAccount.MultiWalletModel multiWalletModel;
+                        String walletId = ManagerWalletDBHelper.SingleTon.getInstance().getCurrentWalletId();
+                        multiWalletModel = ManagerWalletDBHelper.SingleTon.getInstance().queryWalletDataById(walletId);
+                        if(!TextUtils.isEmpty(multiWalletModel.getWallet_phone())) {
+                            SP.set(Constant.PHONE, multiWalletModel.getWallet_phone());
+                        }
+                        SP.set(Constant.SP_SEED, multiWalletModel.getWallet_seed());
+                        SP.set(Constant.SP_RANDOM_SEED, multiWalletModel.getWallet_random_seed());
+                        SP.set(Constant.SP_PASSWORD_SEED, multiWalletModel.getWallet_password_seed());
+                        boolean isBackup = false;
+                        if(multiWalletModel.getWallet_mnemonic_saved().equals("true")){
+                            isBackup = true;
+                        }
+                        ManagerWalletDBHelper.SingleTon.getInstance().setCurrentWalletBackupState(isBackup);
+
+//                        for (String coinName : CoinController.SingleTon.getInstance().getDefaultList()) {
+//                            SP.set(Constant.SP_COIN_INDEX + coinName.toUpperCase(), 0);
+//                        }
+                        success = true;
+                    } catch (Exception e) {
+                        success = false;
+                    } finally {
+                        return success;
+                    }
+                }).compose(GRetrofit.observeOnMainThread(getUI(), Schedulers.computation()))
+                .subscribe(new EasySubscriber<Boolean>() {
+
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                       // showLoading();
+                    }
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        super.onNext(aBoolean);
+                        finishLoading();
+                         SP.set(Constant.SWITCH_WALLET_FOR_SETTING, isFromSetting);
+                         if(isFromSetting){
+                             Intent intent = new Intent();
+                             getActivity().setResult(16, intent);
+                             getActivity().finish();
+                         }else {
+                            getActivity().finish();
+                        }
+                    }
+                });
 
 
+    }
+```
 
 #### 一、功能介绍
 1. **支持直接解析标准URL进行跳转，并自动注入参数到目标页面中**
