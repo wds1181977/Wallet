@@ -468,10 +468,27 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
 
 #### EOS交易构造
 
-1.createAccountAndSign()&ensp;&ensp;创建账户
-2.makeEosTranscation()&ensp;&ensp;转账
-3.doEosAction()&ensp;&ensp;执行 投票，抵押，赎回，购买内存，赎回后退款,出售内存
+1.createAccountAndSign()&ensp;&ensp;创建账户  
+2.makeEosTranscation()&ensp;&ensp;转账  
+3.doEosAction()&ensp;&ensp;执行 投票，抵押，赎回，购买内存，赎回后退款,出售内存  
 
+
+交易参数
+
+```
+       EOSTranscationManager.EosTransferParams params = new EOSTranscationManager.EosTransferParams()
+                .activity(this)
+                .amount(amount)       //金额
+                .conment(conment)     //备注memo
+                .from(fromAddress)    //转账地址
+                .to(toAddress)        //收款地址
+                .tokenName(tokenName) //币种类型 EOS传EOS,Token传Token Name
+                .contract(isEosToken ? tokenFullName :EOSUtils.EOS_TOKEN_ACCOUNT) //合约
+                .pwd(pwd)             //密码
+                .ui(getUI());
+
+        EOSTranscationManager.SingleTon.getInstance().makeEosTranscation(params);
+```        
 
 
 
