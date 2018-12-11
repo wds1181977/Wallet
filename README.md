@@ -87,8 +87,8 @@ EOS  m/44'/194'/0'/0/0
 #### 数据库
 tx.db
  1. hd_account_addresses&ensp;&ensp;地址表&ensp;&ensp;主键 walletId
- 2. wallet&ensp;&ensp;&ensp;&ensp;钱包表&ensp;&ensp;主键 walletId
- 3. eos_account&ensp;&ensp;EOS账户表&ensp;&ensp;主键 walletId
+ 2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;钱包表&ensp;&ensp;&ensp;&ensp;主键 walletId
+ 3. eos_account&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;主键 walletId
 
 address.db
 #### hd_account HD表
