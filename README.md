@@ -50,6 +50,27 @@ coin_type': 这个代表的是币种, 可以兼容很多种币, 比如BTC是0', 
 BTC  m/44'/0'/0'/0/0  
 ETH  m/44'/60'/0'/0/0  
 EOS  m/44'/194'/0'/0/0  
+```
+  private DeterministicKey getDiffAccount(DeterministicKey master, int d) {
+        switch (d) {//0-btc,2-ltc,3-doge,60-eth、etc 194-eos
+            case 0:
+                return getAccount(master, 44, 0, 0);
+            case 2:
+                return getAccount(master, 44, 2, 0);
+            case 3:
+                return getAccount(master, 44, 3, 0);
+            case 60:
+                return getAccount(master, 44, 60, 0);
+            case 70:
+                return getAccount(master, 44, 60, 1);
+            case 194:
+                return getAccount(master, 44, 194, 0);
+            default:
+                return null;
+        }
+    }
+
+```
 
 其中BTC在生成时创建了100个地址，EOS是两个公钥
 
@@ -62,12 +83,13 @@ EOS  m/44'/194'/0'/0/0
 #### <h2 id="2">二、数据库表结构和多钱包管理</h2>
 数据库tx.db
 ![表结构](https://github.com/OldDriver007/Wallet/blob/master/db.png)
-1. **
-2. **支持多模块工程使用**
-3. **支持添加多个拦截器，自定义拦截顺序**
-4. **支持依赖注入，可单独作为依赖注入框架使用**
-5. **支持InstantRun**
-6. **支持MultiDex**(Google方案)
+1. **hd_account_addresses 币种地址公钥表  主键 walletId
+2. **wallet  钱包表 主键 walletId
+3. **eos_account EOS账户表   主键 walletId
+
+address.db
+hd_account HD表
+
 
 
 #### 一、功能介绍
