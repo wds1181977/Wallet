@@ -99,7 +99,7 @@ EOS  m/44'/194'/0'/0/0
 tx.db
  1. hd_account_addresses&ensp;&ensp;地址表&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;主键 walletId
  2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;钱包表&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;主键 walletId
- 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;&ensp;主键 walletId
+ 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;主键 walletId
 
 address.db
 1.hd_account HD表
@@ -463,8 +463,14 @@ EOS一个账户两种类型公钥，分别是owner公钥和active公钥，公钥
 EOS之前是ETH的代币，在2018年6月主网上线，变更为主链，原持有EOS代币的用户需拿ETH的公钥传给EOS主网，保证升级后币不会丢失，是为映射，也称60用户映射后会分配一个12位的账户，如果是新创建的EOS账户，BIP44里EOS Id为194,是位194用户，当创建账户时首先得判断60公钥是否包含EOS账户，如果有就是映射用户
 
 #### EOS创建账户前的时序图
-EOS任何行为都是交易，创建账户也是，所以新用户是无法创建的只能是有账户的帮助创建，创建预先分配4kRAM,0.1EOSCPU和NET
+EOS任何行为都是交易，创建账户也是，所以新用户是无法创建的只能是有账户的帮助创建，创建预先分配4kRAM,0.1EOSCPU和NET，目前看来CPU0.1个是完全不够的
 ![](https://github.com/OldDriver007/Wallet/blob/master/creatAccount1.png) 
+
+#### EOS交易构造
+
+#### createAccountAndSign()&ensp;&ensp;账户
+#### makeEosTranscation()&ensp;&ensp;/转账
+#### doEosAction()&ensp;&ensp;/执行 投票，抵押，赎回，购买内存，赎回后退款,出售内存
 
 
 
@@ -483,6 +489,6 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
 
     QQ 交流群1
     
-        ![qq](https://raw.githubusercontent.com/alibaba/ARouter/master/demo/qq-group-1.png)
+        
 
   
