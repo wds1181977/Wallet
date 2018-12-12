@@ -99,7 +99,7 @@ EOS  m/44'/194'/0'/0/0
 tx.db
  1. hd_account_addresses&ensp;&ensp;地址表&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;主键 walletId
  2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;钱包表&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;主键 walletId
- 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;主键 walletId
+ 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;&ensp;主键 walletId
 
 address.db
 1.hd_account HD表
@@ -491,7 +491,7 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
 ```        
 
 
-
+![交易时序图](https://github.com/OldDriver007/Wallet/blob/master/eos_tx.png)
 
 
 
