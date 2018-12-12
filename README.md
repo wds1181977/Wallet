@@ -751,7 +751,7 @@ if (methodName.equals("requestSignature")) {                          //客服�
 
 
     QQ 交流群1  
-    ![](https://github.com/OldDriver007/Wallet/blob/master/qq_gr.jpeg)
+    ![](https://github.com/OldDriver007/Wallet/blob/master/qq_gr.png)
         
 
   
