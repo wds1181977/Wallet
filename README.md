@@ -99,7 +99,7 @@ EOS  m/44'/194'/0'/0/0
 tx.db
  1. hd_account_addresses&ensp;&ensp;地址表&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;主键 walletId
  2. wallet&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;钱包表&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;主键 walletId
- 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;&ensp;主键 walletId
+ 3. eos_account&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;EOS账户表&ensp;&ensp;主键 walletId
 
 address.db
 1.hd_account HD表
@@ -493,14 +493,49 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
 
 ![交易时序图](https://github.com/OldDriver007/Wallet/blob/master/eos_tx.png)
 
+### getEosInfo   节点基本信息，交易时要用到headBlockId,chainId
+```
+	"head_block_time": "2018-12-12T02:58:05.500",
+    			 "block_cpu_limit": 80270,
+    			 "chain_id": "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906",
+    			 "head_block_producer": "eosliquideos",
+    			 "head_block_id": "01e2c08186b61c1fe6f4475343de80ca22698ace3bf047fa068a8181d54fbaa0",
+    			 "head_block_num": 31637633,
+    			 "virtual_block_cpu_limit": 685819,
+    			 "virtual_block_net_limit": 1048576000,
+    			 "server_version_string": "mainnet-1.3.2",
+    			 "block_net_limit": 1044144,
+    			 "last_irreversible_block_num": 31637298,
+    			 "server_version": "9e62e735",
+    			 "last_irreversible_block_id": "01e2bf32ed077fc1d7be4329cc4401affd119e918318399ebd0cd9184dd9c334"}
+```
 
+### EosTransfer 
+  用来交易参数进行编码并序列化，如转账地址，金额，备注  
+  编码分为     
+  String&nbsp;&nbsp;  对备注编码
+  TypeName&nbsp;&nbsp; 对账号编码
+  TypeAsset&nbsp;&nbsp; 对金额币种编码 
+### Action
+   用来执行操作，如合约，转账  ,Action可以一次执行多个，如创建账户执行来三个购买内存，创建账户，抵押资源三个action
+   
+   ```
+    Actions actions = new Actions();
+        actions.setAuthorization(permissons);   //私钥权限 owner还是active
+        actions.setData(hexdata);               //参数编码
+        actions.setAccount(new TypeName(contract)); //合约
+        actions.setName(new TypeName(actionName));  //action name  如交易：transfer
+   
+   ```
 
+### EosTransaction 私钥签名信息
 
+如何获取active私钥 owner私钥
 
-
-
-
- 
+ ```
+      String  pri_key =  EOSUtils.getEosPrivateKey(params.from,params.pwd,EosAccountDBHelper.OWER);
+      String  active_key = EOSUtils.getEosPrivateKey(params.from,params.pwd,EosAccountDBHelper.ACTIVE); 
+ ```
 
 
 
