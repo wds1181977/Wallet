@@ -553,6 +553,73 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
 ### pushEosTransaction 广播交易
 
 
+#### EOS资源管理
+
+EOS资源包括RAM(内存)， NET(网络带宽)，CPU(CPU带宽)
+EOS进行转账，抵押，赎回，投票，执行合约要消耗RAM,需要花费EOS来购买，RAM价格会波动，自己可以购买出售，也可以帮别人购买，不能帮别人出售
+NET带宽和CPU带宽取决于过去三天消费的平均值，每次转账消耗带宽，单位时间内交易次数越多消耗越多，随着时间推移，会自动释放，NETCPU需要通过抵押EOS来获取，
+也可以赎回，因抵押也是交易，所以会造成CPU不够无法抵押的现象，这时候需要别人帮助抵押，抵押分为租赁和过户,给别人抵押可 0 和1, 0代表租借 1过户，给自己抵押是0，赎回添自己账户可以赎回，72小时后到账，如果到不了需执行退款action,赎回给别人租借的需在租借列表执行赎回
+
+
+```
+         switch (params.actionState) {
+                            case EOSUtils.ACTION_VOTE:
+                                EOSVoteProducer voteProducer = new EOSVoteProducer(params.from, "", params.producersList);
+                                actionList = ChainManager.getInstance().createVote(voteProducer,permissionLevelList);
+                                break;
+                            case EOSUtils.ACTION_UNDELEGATEBW:
+                                EOSUndelegatebw Undelegatebw = new EOSUndelegatebw(params.from, params.to, new TypeAsset(params.net_quantity, token_name), new TypeAsset(params.cpu_quantity, token_name));
+                                actionList = ChainManager.getInstance().createUndelegatebw(Undelegatebw,permissionLevelList);
+                                break;
+                            case EOSUtils.ACTION_UNDELEGATEBW_RENT:
+                                EOSUndelegatebw Undelegatebw_rent = new EOSUndelegatebw(params.from, params.to, new TypeAsset(params.net_quantity, token_name), new TypeAsset(params.cpu_quantity, token_name));
+                                actionList = ChainManager.getInstance().createUndelegatebw(Undelegatebw_rent,permissionLevelList);
+                                break;
+                            case EOSUtils.ACTION_UNDELEGATEBW_RENT_LIST:
+                                List<EosRentList.Rows> eosRentList = params.rentList;
+                                List<EOSUndelegatebw> Undelegatebw_rentList = new ArrayList<>();
+                                for(EosRentList.Rows eosRent : eosRentList){
+                                    String from = EosAccountDBHelper.getInstance().getMainEosAccount();
+                                    String to = eosRent.getTo();
+                                    String cpuValue = formAmount(eosRent.getCpu_weight());
+                                    String netValue = formAmount(eosRent.getNet_weight());
+                                    if(TextUtils.isEmpty(from) ||TextUtils.isEmpty(to) ){
+                                        break;
+                                    }
+                                    EOSUndelegatebw UndelegatebwBean = new EOSUndelegatebw(from, to, new TypeAsset(netValue, token_name), new TypeAsset(cpuValue, token_name));
+                                    Undelegatebw_rentList.add(UndelegatebwBean);
+
+                                }
+                                if(Undelegatebw_rentList == null){
+                                    break;
+                                }
+                                actionList = ChainManager.getInstance().createUndelegatebwList(Undelegatebw_rentList,permissionLevelList);
+                                break;
+                            case EOSUtils.ACTION_DELEGATEBW:
+                                //  boolean transfer  //给自己必须0   //给别人抵押可 0 和1 0代表租界 1抵押 代表
+                                if (params.from.equals(params.to)) {
+                                    params.transfer = false;
+                                }
+                                EOSDelegatebw delegatebw = new EOSDelegatebw(params.from, params.to, new TypeAsset(params.net_quantity, token_name), new TypeAsset(params.cpu_quantity, token_name), params.transfer);
+                                actionList = ChainManager.getInstance().createDelegatebw(delegatebw,permissionLevelList);
+                                break;
+
+                            case EOSUtils.ACTION_BUY_RAM:
+                                EOSBuyram buyram = new EOSBuyram(params.from,params.to ,new TypeAsset(params.quantStr, token_name));
+                               actionList = ChainManager.getInstance().createBuyram(buyram,permissionLevelList);
+                                break;
+
+                            case EOSUtils.ACTION_REFOUND:
+                                EOSRefund refund = new EOSRefund(params.from);
+                                actionList = ChainManager.getInstance().createEOSRefund(refund,permissionLevelList);
+                                break;
+                            case EOSUtils.ACTION_SELL_RAM:
+                                EOSellRam sellRam = new EOSellRam(params.from,params.quant);
+                                actionList = ChainManager.getInstance().createSellRam(sellRam,permissionLevelList);
+                                break;
+```
+
+
 
 1. 沟通和交流
 
