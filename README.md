@@ -528,7 +528,7 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
    
    ```
 
-### EosTransaction 私钥签名信息
+### EosTransaction 序列化后ECC签名
 
 如何获取active私钥 owner私钥
 
@@ -536,6 +536,21 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
       String  pri_key =  EOSUtils.getEosPrivateKey(params.from,params.pwd,EosAccountDBHelper.OWER);
       String  active_key = EOSUtils.getEosPrivateKey(params.from,params.pwd,EosAccountDBHelper.ACTIVE); 
  ```
+
+签名
+
+```
+    public String sign(String pri_key, TypeChainId cid) throws Exception {
+        byte[] packed = getDigestForSignature(cid);
+        DebugLog.d(HexUtils.getHex(packed));
+
+        EcSignature s1 = EcDsa.sign(Sha256.from(packed),new EosPrivateKey(pri_key));
+        DebugLog.d("sig2=="+s1.toString());
+
+        return s1.toString();
+    }
+```
+### pushEosTransaction 广播交易
 
 
 
