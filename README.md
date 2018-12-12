@@ -650,13 +650,17 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，防止过多交�
 
 #### DAPP
 
- AToken 以太坊DAPP遵循meadmask协议,EOS DAPP是scatter协议，通过注入js,来拦截DAPP请求
+ AToken 以太坊DAPP遵循meadmask协议,EOS DAPP是Scatter协议，都需要通过注入js,来拦截DAPP请求
  
  
- EOS DAPP 交易是DAPP完成，DAPP把交易参数
+ EOS DAPP  两个重要回调登录账户和授权签名交易参数，传参给DAPP账户名，公钥，权限类型，公钥权限类型需通过，账户查询本地数据库来判端，授权签名，
+ DAPP会返回交易参数，返回多个action，这时候需要把这些信息通过EOS主网节点的接口来解码，action不止一个所以要循环查找，解码后要给用户展示要签名的信息有那些，如action是转账，需要给用户展示转账地址，金额，备注等  
  
+ 
+ 
+ #### 两个重要回调登录账户和授权签名交易参数
  ```
-   if (methodName.equals("getEosAccount")) {
+   if (methodName.equals("getEosAccount")) {    登录账户
             DebugLog.d(TAG, "getEosAccount ");
             responseBean.setCode(0);
             responseBean.setMessage("success");
@@ -669,9 +673,9 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，防止过多交�
         }
 	
 	
-if (methodName.equals("requestSignature")) {                          //授权签名
+if (methodName.equals("requestSignature")) {                          //客服端授权签名后，DAPP来执行合约交易
             DebugLog.d(TAG, "requestSignature " + params);
-            if(isloading){
+            if(isloading){  //如果在处理数据时，不在接收DAPP的返回
                 return;
             }
 
@@ -687,13 +691,44 @@ if (methodName.equals("requestSignature")) {                          //授权�
                 scatterSignBean = new Gson().fromJson(params, ScatterSignBean.class);
                 isloading = true;
                 for (int i = 0; i < scatterSignBean.getTransaction().getActions().size(); i++) {
-                    enCodeData(i);
+                    enCodeData(i);//解码交易参数
                 }
 	
 	
 ```
  
- 
+#### 执行签名前DAPP返回的data
+
+```
+{
+	"transaction": {
+		"expiration": "2018-12-12T09:43:30",
+		"ref_block_num": 31782,
+		"ref_block_prefix": 3862596156,
+		"max_net_usage_words": 0,
+		"max_cpu_usage_ms": 0,
+		"delay_sec": 0,
+		"context_free_actions": [],
+		"actions": [{
+			"account": "eosio.token",
+			"name": "transfer",
+			"authorization": [{
+				"actor": "gy4tsmjvhege",
+				"permission": "active"
+			}],
+			"data": "a0986afb499c8967309d4c462197b23a102700000000000004454f530000000040616374696f6e3a6265742c736565643a544b72353665724345506f4d5156357442372c726f6c6c556e6465723a35302c7265663a637075656d657267656e6379"
+		}],
+		"transaction_extensions": []
+	},
+	"buf": {
+		"type": "Buffer",
+		"data": [172, 163, 118, 242, 6, 184, 252, 37, 166, 237, 68, 219, 220, 102, 84, 124, 54, 198, 195, 62, 58, 17, 159, 251, 234, 239, 148, 54, 66, 240, 233, 6, 66, 216, 16, 92, 38, 124, 60, 138, 58, 230, 0, 0, 0, 0, 1, 0, 166, 130, 52, 3, 234, 48, 85, 0, 0, 0, 87, 45, 60, 205, 205, 1, 160, 152, 106, 251, 73, 156, 137, 103, 0, 0, 0, 0, 168, 237, 50, 50, 97, 160, 152, 106, 251, 73, 156, 137, 103, 48, 157, 76, 70, 33, 151, 178, 58, 16, 39, 0, 0, 0, 0, 0, 0, 4, 69, 79, 83, 0, 0, 0, 0, 64, 97, 99, 116, 105, 111, 110, 58, 98, 101, 116, 44, 115, 101, 101, 100, 58, 84, 75, 114, 53, 54, 101, 114, 67, 69, 80, 111, 77, 81, 86, 53, 116, 66, 55, 44, 114, 111, 108, 108, 85, 110, 100, 101, 114, 58, 53, 48, 44, 114, 101, 102, 58, 99, 112, 117, 101, 109, 101, 114, 103, 101, 110, 99, 121, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	}
+}
+```
+
+
+
 
 
 
