@@ -649,6 +649,7 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，防止过多交�
 ```
 #### <h2 id="5"> 五、以太坊交易构造</h2>  
 
+![](https://github.com/OldDriver007/Wallet/blob/master/eth.png)
 
 #### <h2 id="6"> 六、DAPP</h2>  
 
