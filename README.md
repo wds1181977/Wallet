@@ -478,12 +478,12 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
 ```
        EOSTranscationManager.EosTransferParams params = new EOSTranscationManager.EosTransferParams()
                 .activity(this)
-                .amount(amount)       //金额
+                .amount(amount)       //金额 EOS金额必须是小数点后四位，如果没小数则补零，有Token的精度不是四位，需要根据精度来补位
                 .conment(conment)     //备注memo
                 .from(fromAddress)    //转账地址
                 .to(toAddress)        //收款地址
                 .tokenName(tokenName) //币种类型 EOS传EOS,Token传Token Name
-                .contract(isEosToken ? tokenFullName :EOSUtils.EOS_TOKEN_ACCOUNT) //合约
+                .contract(isEosToken ? tokenFullName :EOSUtils.EOS_TOKEN_ACCOUNT) //合约，Token交易用Token的合约
                 .pwd(pwd)             //密码
                 .ui(getUI());
 
@@ -553,6 +553,12 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
 ### pushEosTransaction 广播交易
 
 
+
+
+
+
+
+
 #### EOS资源管理
 
 EOS资源包括RAM(内存)， NET(网络带宽)，CPU(CPU带宽)
@@ -562,7 +568,7 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，每次转账消�
 
 
 ```
-         switch (params.actionState) {
+       switch (params.actionState) {
                             case EOSUtils.ACTION_VOTE:
                                 EOSVoteProducer voteProducer = new EOSVoteProducer(params.from, "", params.producersList);
                                 actionList = ChainManager.getInstance().createVote(voteProducer,permissionLevelList);
@@ -617,6 +623,8 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，每次转账消�
                                 EOSellRam sellRam = new EOSellRam(params.from,params.quant);
                                 actionList = ChainManager.getInstance().createSellRam(sellRam,permissionLevelList);
                                 break;
+    
+
 ```
 
 
