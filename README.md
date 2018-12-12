@@ -585,8 +585,7 @@ EOS任何行为都是交易，创建账户也是，所以新用户是无法创�
 
 EOS资源包括RAM(内存)， NET(网络带宽)，CPU(CPU带宽)
 EOS进行转账，抵押，赎回，投票，执行合约要消耗RAM,需要花费EOS来购买，RAM价格会波动，自己可以购买出售，也可以帮别人购买，不能帮别人出售
-NET带宽和CPU带宽取决于过去三天消费的平均值，每次转账消耗带宽，单位时间内交易次数越多消耗越多，随着时间推移，会自动释放，NETCPU需要通过抵押EOS来获取，
-也可以赎回，因抵押也是交易，所以会造成CPU不够无法抵押的现象，这时候需要别人帮助抵押，抵押分为租赁和过户,给别人抵押可 0 和1, 0代表租借 1过户，给自己抵押是0，赎回添自己账户可以赎回，72小时后到账，如果到不了需执行退款action,赎回给别人租借的需在租借列表执行赎回
+NET带宽和CPU带宽取决于过去三天消费的平均值，每次转账消耗带宽，单位时间内交易次数越多消耗越多，会造成抵押多少都不够都问题，随着时间推移，会自动释放，NETCPU需要通过抵押EOS来获取，也可以赎回，因抵押也是交易，所以会造成CPU不够无法抵押的现象，这时候需要别人帮助抵押，抵押分为租赁和过户,给别人抵押可 0 和1, 0代表租借 1过户，给自己抵押是0，赎回添自己账户可以赎回，72小时后到账，如果到不了需执行退款action,赎回给别人租借的需在租借列表执行赎回
 
 
 ```
@@ -648,6 +647,53 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，每次转账消�
     
 
 ```
+
+#### DAPP
+
+ AToken 以太坊DAPP遵循meadmask协议,EOS DAPP是scatter协议，通过注入js,来拦截DAPP请求
+ 
+ 
+ EOS DAPP 交易是DAPP完成，DAPP把交易参数
+ 
+ ```
+   if (methodName.equals("getEosAccount")) {
+            DebugLog.d(TAG, "getEosAccount ");
+            responseBean.setCode(0);
+            responseBean.setMessage("success");
+            HashMap<String, String> hashMap = new HashMap();
+            hashMap.put("account", mAccount);                               //登录账户
+            hashMap.put("publicKey", EOSUtils.getPubkeyByType(mAccount));  //公钥
+            hashMap.put("authority", EOSUtils.getPermissionsType(mAccount)); // 权限类型
+            responseBean.setData(hashMap);
+            JsCallback(serialNumber, new Gson().toJson(responseBean));
+        }
+	
+	
+if (methodName.equals("requestSignature")) {                          //授权签名
+            DebugLog.d(TAG, "requestSignature " + params);
+            if(isloading){
+                return;
+            }
+
+            if (params.equals("{}") || TextUtils.isEmpty(params)) {
+                parmsNullTransaction();
+                return;
+            }
+
+            try {
+                if (actionList != null) {
+                    actionList.clear();
+                }
+                scatterSignBean = new Gson().fromJson(params, ScatterSignBean.class);
+                isloading = true;
+                for (int i = 0; i < scatterSignBean.getTransaction().getActions().size(); i++) {
+                    enCodeData(i);
+                }
+	
+	
+```
+ 
+ 
 
 
 
