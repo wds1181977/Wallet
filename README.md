@@ -726,7 +726,18 @@ if (methodName.equals("requestSignature")) {                          //客服�
 	}
 }
 ```
+#### 解码后的信息
 
+```
+"args": {
+    		"to": "betdiceadmin",
+    		 "memo": "action:bet,
+    		 rollUnder:50,
+    		 ref:cpuemergency",
+    		"from": "gy4tsmjvhege",
+    		"quantity": "1.0000 EOS"}
+      }
+```
 
 
 
