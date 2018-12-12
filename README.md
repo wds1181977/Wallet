@@ -89,7 +89,7 @@ EOS  m/44'/194'/0'/0/0
 
 
 #### 导入钱包流程
-![导入助记词时许图](https://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png)
+![导入助记词时序图](https://github.com/OldDriver007/Wallet/blob/master/SequenceDiagram1.png)
 
 #### <h2 id="3">二、数据库表结构和多钱包管理</h2>
 
@@ -647,14 +647,17 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，防止过多交�
     
 
 ```
+#### <h2 id="5"> 五、以太坊交易构造</h2>  
 
-#### DAPP
+#### <h2 id="6"> 六、DAPP</h2>  
+
+#### EOS DAPP
 
  AToken 以太坊DAPP遵循meadmask协议,EOS DAPP是Scatter协议，都需要通过注入js,来拦截DAPP请求
  
  
  EOS DAPP  两个重要回调登录账户和授权签名交易参数，传参给DAPP账户名，公钥，权限类型，公钥权限类型需通过，账户查询本地数据库来判端，授权签名，
- DAPP会返回交易参数，返回多个action，这时候需要把这些信息通过EOS主网节点的接口来解码，action不止一个所以要循环查找，解码后要给用户展示要签名的信息有那些，如action是转账，需要给用户展示转账地址，金额，备注等  
+ DAPP会返回交易参数，返回多个action，这时候需要把这些信息通过EOS主网节点的接口来解码，action不止一个所以要循环查找，解码后要给用户展示要签名的信息有那些，如action是转账，需要给用户展示转账地址，金额，备注等 ,值得注意的是签名后不需编码直接用传过来的data签名就可以了 
  
  
  
@@ -740,14 +743,14 @@ if (methodName.equals("requestSignature")) {                          //客服�
 ```
 
 
-
+#### <h2 id="7"> 七、打包和发版注意事项</h2>  
 
 
 1. 沟通和交流
 
 
-    QQ 交流群1
-    
+    QQ 交流群1  
+    ![](https://github.com/OldDriver007/Wallet/blob/master/qq_gr.png)
         
 
   
