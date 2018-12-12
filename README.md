@@ -262,25 +262,8 @@ address.db
     }
 ```
 
-### EOS表
-
-目前一个wallet对应一个EOS账户
-```
- public static final String  CREATE_EOS_ACCOUONT_TABLE  = "create table " + EOS_TABLLE_NAME  +
-            "( " + WALLET_ID + " TEXT not null , " +  //钱包id
-            BALANCE + " TEXT not null , " +
-            EOS_ACCOUNT_LIST +" TEXT not null , " +  //账户详情
-            EOS_MAIN_ACCOUNT +" TEXT not null , " +  //主账户
-            EOS_OWER_PUB +" TEXT not null , " +
-            EOS_ACTIVE_PUB +" TEXT not null , " +
-            EOS_OWER_PRIV_ENCRY +" TEXT not null , " +
-            EOS_ACTIVE_PRIV_ENCRY +" TEXT not null , " +
-            EOS_ETH_PRIV_ENCRY +" TEXT not null , " +
-            EOS_ACCOUNT_STATE +" TEXT not null , " +   //账户权限状态
-            EOS_REGISTERED_WALLET +" TEXT not null , " +
-            EOS_OTHER +" TEXT not null );";
-
-```
+   
+ 
 ### 升级数据库注意事项
 
 ```
@@ -431,6 +414,44 @@ owner公钥和active公钥，CPU,NET,RAM使用情况，赎回日期
   }
 }
 ```
+### EOS表
+
+目前一个wallet对应一个EOS账户
+```
+ public static final String  CREATE_EOS_ACCOUONT_TABLE  = "create table " + EOS_TABLLE_NAME  +
+            "( " + WALLET_ID + " TEXT not null , " +  //钱包id
+            BALANCE + " TEXT not null , " +
+            EOS_ACCOUNT_LIST +" TEXT not null , " +  //存储账户所有信息
+            EOS_MAIN_ACCOUNT +" TEXT not null , " +  //主账户
+            EOS_OWER_PUB +" TEXT not null , " +     //未用
+            EOS_ACTIVE_PUB +" TEXT not null , " +    //未用
+            EOS_OWER_PRIV_ENCRY +" TEXT not null , " +  //未用
+            EOS_ACTIVE_PRIV_ENCRY +" TEXT not null , " +  //未用
+            EOS_ETH_PRIV_ENCRY +" TEXT not null , " +   //未用
+            EOS_ACCOUNT_STATE +" TEXT not null , " +   //账户权限状态
+            EOS_REGISTERED_WALLET +" TEXT not null , " + //未用
+            EOS_OTHER +" TEXT not null );";            //未用
+
+```
+
+```
+public class EosAccountListBean implements Serializable {
+
+
+    private String eosAccountName; //账户名
+    private String balance;        //余额
+    private int isMainAccount;      //是否是主账户
+    private int isRegistered_Wallet; //是否绑定walletId
+    private String owrPublicKey;     //owner公钥
+    private String activePublicKey;   //actvie公钥
+    private String owrPrivateKey;     //如果是导入私钥用户，加密存储的owner私钥
+    private String activePrivate;  //如果是导入私钥用户，加密存储的active私钥
+    private int permissionsType;   //权限类型
+    private int owerWeight;        //owner权重
+    private int activeWeight;      //owner权重
+    
+``` 
+
 
 #### 什么是owner权限和active权限
 EOS一个账户两种类型公钥，分别是owner公钥和active公钥，公钥可以变更或添加多个，同时私钥对应各自公钥，一个公钥也可以创建多个账户，所以在用户导入EOS私钥或激活EOS钱包时需通过公钥查询账户列表，owner相当于账户所有者，可以称之为拥有者权限，权限最高，可以管理active，active又称管理者权限，用于交易，投票等日常操作。owner公钥和active公钥也可以相同，AToken在新创建账户时默认owner和active两个公钥，导入私钥时可以单独导一个私钥，也可以导入私钥对，但需要注意的是导入是要存储账户权限类型，在签名交易时要根据权限类型来签名，否则签名不成功
