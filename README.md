@@ -327,7 +327,7 @@ public class TxDatabaseHelper extends SQLiteOpenHelper {
 ####   注意 删钱包要删除以上关联到表还应删除hd_account
 
 
-#### <h2 id="4"> 一、EOS账户系统及交易构造</h2>
+#### <h2 id="4"> 四、EOS账户系统及交易构造</h2>
 
 #### EOS账户系统
 EOS到账户由12位到数字字母组成，可以是全数字，数字必须是1-5，字母a-z需小写组成，通过节点可以查询到账户的一些基本信息，
