@@ -805,7 +805,19 @@ if (methodName.equals("requestSignature")) {                          //客服�
 ```
 
 
+#### ETH DAPP
  
+ #### 接口 以太坊的DAPP是本地push的
+ 
+ DAPP 返回一段数据，需要本地ETH的私钥签名后生成数据返回DAPP  SignFragment.signPersonalMsg();
+      交易是DAPP返回数据后,在服务端push后返回交易hash,返回给DAPP
+ ```
+ setWalletAddress //钱包ETH地址 
+ signPersonalMessage  //签名
+ signTransaction   //交易请求
+
+ 
+ ```
  
  
  
