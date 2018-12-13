@@ -825,10 +825,8 @@ if (methodName.equals("requestSignature")) {                          //客服�
 
 
 #### 沟通和交流
-
-
-    QQ 交流群1  
-    ![](https://github.com/OldDriver007/Wallet/blob/master/qq_g.png)
+QQ 交流群1  
+ ![](https://github.com/OldDriver007/Wallet/blob/master/qq_g.png)
         
 
 
