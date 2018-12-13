@@ -34,7 +34,7 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 + [EOS账户系统及交易构造](#4)
 + [以太坊交易构造](#5)
 + [DAPP](#6)
-+ [打包和发版注意事项](#7)
+
 
 
 
@@ -769,10 +769,14 @@ if (methodName.equals("requestSignature")) {                          //客服�
 ```
 
 
-#### <h2 id="7"> 七、打包和发版注意事项</h2>  
+ 
+ 
+ 
+ 
+ 
 
 
-1. 沟通和交流
+#### 沟通和交流
 
 
     QQ 交流群1  
