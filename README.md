@@ -19,7 +19,7 @@ AToken是一款易用的数字资产钱包，可以存储比特币(BTC)、莱特
 
 日期|version|targetSdkVersion|buildToolsVersion|gradle
 ---|---|---|---|---
-2018/12|&ensp;2.5.3|&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;28|&ensp;&ensp;&ensp;&ensp;&ensp;28.0.3|&ensp;&ensp;&ensp;&ensp;&ensp;3.2.1
+2018/12|&ensp;2.5.3|&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;28|&ensp;&ensp;&ensp;&ensp;&ensp;28.0.3|&ensp;&ensp;&ensp;3.2.1
 
 #### GooglePlay
 https://play.google.com/store/apps/details?id=wallet.gem.com
