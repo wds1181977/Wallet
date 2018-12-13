@@ -651,6 +651,30 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，防止过多交�
 
 ![](https://github.com/OldDriver007/Wallet/blob/master/eth.png)
 
+
+```
+
+            mParams = new TransactionController.TransactionParams()
+                    .outputAmount(amount)                                       //转账金额
+                    .conment(TextUtils.isEmpty(conment) ? "" : conment.trim())  //备注
+                    .to(address)                                                //收款地址
+                    .fee(result)                                                //除ETH,ETH Token之外的矿工费
+                    .shift("0")                                                  //不是换币交易
+                    .gaslimit(String.valueOf(gasLimit))                         //ETH gaslimit
+                    .gasprice(String.valueOf(gasPrice))                         //ETH gasPrice
+                    .activity(getActivity()) 
+                    .balance(mBalance)                                           //币种余额
+                    .coinbean(mCoinType)                                         //币种coinbean 币种详情对象
+                    .recommandFee(result)
+                    .type(mCoinType.getName()).typeInt(mCoinType.getType()).ui(getUI()); //币种名， 币种类型
+
+```
+
+#### 什么是gas费用
+公链任何人都可以读写数据，读取免费，但是写数据要花费成本，这种开销可以有效阻止垃圾内容，矿工会优先打包gas合理，gasprice高的交易，ETH矿工费= gas * gasprice
+
+
+ 
 #### <h2 id="6"> 六、DAPP</h2>  
 
 #### EOS DAPP
