@@ -43,7 +43,7 @@ https://play.google.com/store/apps/details?id=wallet.gem.com
 ![](https://github.com/OldDriver007/Wallet/blob/master/screenshot.png)  
 
 
-主链币：BTC ETH EOS LTC DOGE  
+主链币：BTC ETH EOS ETC LTC DOGE  
 分叉币：BCH BTG BCD SBTC  
 Token:  ETH ERC20  EOS Token  
 
