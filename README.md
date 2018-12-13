@@ -673,7 +673,43 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，防止过多交�
 #### 什么是gas费用
 公链任何人都可以读写数据，读取免费，但是写数据要花费成本，这种开销可以有效阻止垃圾内容，矿工会优先打包gas合理，gasprice高的交易，ETH矿工费= gas * gasprice
 
+#### ETH，Token交易,执行合约交易
 
+```
+  if (coinBean.isDefault()) {
+                            if (encoded == null) {   //ETH交易
+                                rawTransaction = RawTransaction.createEtherTransaction(
+                                        BigInteger.valueOf(Long.valueOf(data.getNonce()))
+                                        , BigInteger.valueOf(Long.valueOf(params.gasprice)).multiply(BigInteger.valueOf(1000000000l))
+                                        , BigInteger.valueOf(Long.valueOf(params.gaslimit))
+                                        , inData.getAddress()
+                                        , BigInteger.valueOf(Long.valueOf(inData.getAmount())).multiply(BigInteger.valueOf(10000000000l)));
+
+
+                            } else {                          //合约交易
+                                rawTransaction = RawTransaction.createTransaction(
+                                        BigInteger.valueOf(Long.valueOf(data.getNonce()))
+                                        , BigInteger.valueOf(Long.valueOf(params.gasprice)).multiply(BigInteger.valueOf(1000000000l))
+                                        , BigInteger.valueOf(Long.valueOf(params.gaslimit))
+                                        , inData.getAddress()
+                                        , new BigDecimal(params.outputAmount).multiply( BigDecimal.TEN.pow(18)).toBigInteger()
+                                        , encoded);
+                            }
+                        } else { //Token交易
+                            Function function = new Function("transfer", Arrays.<Type>asList(new Address(params.to)
+                                    , new Uint(new BigDecimal(params.outputAmount).multiply(BigDecimal.valueOf(coinBean.getDeciml())).toBigInteger())), Arrays.asList(new TypeReference<Uint>() {
+                            }));
+                                    String encodedFunction = FunctionEncoder.encode(function);
+
+                                    DebugLog.d(encodedFunction);
+                                        rawTransaction = RawTransaction.createTransaction(BigInteger.valueOf(Long.valueOf(data.getNonce()))
+                                                , BigInteger.valueOf(Long.valueOf(params.gasprice)).multiply(BigInteger.valueOf(1000000000l))
+                                                , BigInteger.valueOf(Long.valueOf(params.gaslimit))
+                                                , coinBean.getContract_addr()
+                                                , BigInteger.ZERO
+                                                , encodedFunction);
+                                    }
+```
  
 #### <h2 id="6"> 六、DAPP</h2>  
 
