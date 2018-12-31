@@ -715,7 +715,7 @@ NET带宽和CPU带宽取决于过去三天消费的平均值，防止过多交�
 
 #### EOS DAPP
 
- AToken 以太坊DAPP遵循meadmask协议,EOS DAPP是Scatter协议，都需要通过注入js,来拦截DAPP请求
+ AToken 以太坊DAPP遵循meadmask  web3协议,EOS DAPP是Scatter协议，都需要通过注入js,来拦截DAPP请求
  
  
  EOS DAPP  两个重要回调登录账户和授权签名交易参数，传参给DAPP账户名，公钥，权限类型，公钥权限类型需通过，账户查询本地数据库来判端，授权签名，
